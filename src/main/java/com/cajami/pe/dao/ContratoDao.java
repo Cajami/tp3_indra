@@ -11,6 +11,7 @@ import com.cajami.pe.service.AdendaEntityService;
 import com.cajami.pe.service.AnexoEntityService;
 import com.cajami.pe.service.AntecedenteEntityService;
 import com.cajami.pe.service.ApoderadoEntityService;
+import com.cajami.pe.service.BuscarControversiaEntityService;
 import com.cajami.pe.service.ClausulaEntityService;
 import com.cajami.pe.service.ClienteEntityService;
 import com.cajami.pe.service.ConsultarContratoService;
@@ -1014,5 +1015,170 @@ ConexionDao conexion;
 		return codigoGenerado;
 	}
 
+	
+	// 27-10-2018
+	
+	public int registrarControversia(
+			int dniCliente,
+			int codAdenda,
+			String desControversia,
+			int numeroPaginas,
+			int numeroClausulas) throws SQLException {			
+			
+			int codigoGenerado = 0;
+			
+		try {
+			this.conexion.conectar();
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_CON_RegistrarControversia(?,?,?,?,?) }");
 
+
+			cst.setInt(1, dniCliente);
+			cst.setInt(2, codAdenda );
+			cst.setString(3, desControversia);
+			cst.setInt(4, numeroPaginas );
+			cst.setInt(5, numeroClausulas );
+			
+						
+			ResultSet rs = cst.executeQuery();
+			if (rs.next()) {
+				codigoGenerado = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error (registrarControversia):  "+ e.getMessage());
+		}finally {
+			if (this.conexion.getCon()!=null)
+				this.conexion.desconectar();
+		}
+		return codigoGenerado;
+	}
+
+	public int modificarControversia(
+			int codControversia,
+			String desControversia,
+			int numeroPaginas,
+			int numeroClausulas) throws SQLException {			
+			
+			int codigoGenerado = 0;
+			
+		try {
+			this.conexion.conectar();
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_CON_ModificarControversia(?,?,?,?) }");
+
+			cst.setInt(1, codControversia );
+			cst.setString(2, desControversia);
+			cst.setInt(3, numeroPaginas );
+			cst.setInt(4, numeroClausulas );
+			
+						
+			ResultSet rs = cst.executeQuery();
+			if (rs.next()) {
+				codigoGenerado = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error (modificarControversia):  "+ e.getMessage());
+		}finally {
+			if (this.conexion.getCon()!=null)
+				this.conexion.desconectar();
+		}
+		return codigoGenerado;
+	}
+	
+	public int eliminarControversia(
+			int codControversia) throws SQLException {			
+			
+			int codigoGenerado = 0;
+			
+		try {
+			this.conexion.conectar();
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_CON_EliminarControversia(?) }");
+
+			cst.setInt(1, codControversia );		
+						
+			ResultSet rs = cst.executeQuery();
+			if (rs.next()) {
+				codigoGenerado = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error (eliminarControversia):  "+ e.getMessage());
+		}finally {
+			if (this.conexion.getCon()!=null)
+				this.conexion.desconectar();
+		}
+		return codigoGenerado;
+	}
+	
+	public int aprobarControversia(
+			int codControversia) throws SQLException {			
+			
+			int codigoGenerado = 0;
+			
+		try {
+			this.conexion.conectar();
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_CON_EliminarControversia(?) }");
+
+			cst.setInt(1, codControversia );		
+						
+			ResultSet rs = cst.executeQuery();
+			if (rs.next()) {
+				codigoGenerado = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error (eliminarControversia):  "+ e.getMessage());
+		}finally {
+			if (this.conexion.getCon()!=null)
+				this.conexion.desconectar();
+		}
+		return codigoGenerado;
+	}
+	
+	public ArrayList<BuscarControversiaEntityService> buscarControversia(Date fechaIni,Date fechaFin, String estado, String nomContrato) throws SQLException{
+		
+		ArrayList<BuscarControversiaEntityService> listaControversia = new ArrayList<BuscarControversiaEntityService>();
+				
+		try {
+			this.conexion.conectar();
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_CON_BuscarControversia(?,?,?,?) }");
+			
+			cst.setDate(1, fechaIni);
+			cst.setDate(1, fechaFin);
+			cst.setString(1, estado);
+			cst.setString(1, nomContrato);
+			
+			ResultSet resultado = cst.executeQuery();
+			BuscarControversiaEntityService item;
+						
+			while (resultado.next()) {
+				item = new BuscarControversiaEntityService();
+				
+				item.setCodContrato(resultado.getInt("CODIGO_CONTRATO"));
+				item.setCodAdenda(resultado.getInt("CODIGO_ADENDA"));
+				item.setCodFirmante(resultado.getInt("CODIGO_FIRMANTE"));
+				item.setNomContrato(resultado.getString("NOMBRE_CONTRATO"));
+				item.setNomCliente(resultado.getString("CLIENTE"));
+				item.setEstado(resultado.getInt("ESTADO"));
+				item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
+				item.setFechaAprobacion(resultado.getDate("FECHA_APROBACION"));
+				item.setFechaUltimaMod(resultado.getDate("FECHA_ULTIMA_MODIFICACION"));
+				
+				listaControversia.add(item);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error:  "+ e.getMessage());
+			listaControversia = null;
+		}finally {
+			if (this.conexion.getCon()!=null)
+				this.conexion.desconectar();
+		}
+		return listaControversia;
+	}
+	
 }

@@ -22,6 +22,7 @@ import com.cajami.pe.service.ClienteEntityService;
 import com.cajami.pe.service.ConsultarContratoService;
 import com.cajami.pe.service.ContratoEntityService;
 import com.cajami.pe.service.ContratoService;
+import com.cajami.pe.service.BuscarControversiaEntityService;
 import com.cajami.pe.service.GerenteEntityService;
 
 @RestController
@@ -287,6 +288,47 @@ public class ContratoClienteController {
 	}
 	
 	
+	// 27-10-2018
+	
+	@RequestMapping(value="/registrarControversia",method=RequestMethod.POST)
+	public int registrarControversia(
+			@RequestParam(required=true) int dniCliente,
+			@RequestParam(required=true) int codAdenda,
+			@RequestParam(required=true) String desControversia,
+			@RequestParam(required=true) int numeroPaginas,
+			@RequestParam(required=true) int numeroClausulas) throws SQLException {
+    	return new ContratoDao().registrarControversia(dniCliente,codAdenda,desControversia,numeroPaginas,numeroClausulas);
+	}
+	
+	@RequestMapping(value="/modificarControversia",method=RequestMethod.POST)
+	public int modificarControversia(
+			@RequestParam(required=true) int codControversia,
+			@RequestParam(required=true) String desControversia,
+			@RequestParam(required=true) int numeroPaginas,
+			@RequestParam(required=true) int numeroClausulas) throws SQLException {
+    	return new ContratoDao().modificarControversia(codControversia,desControversia,numeroPaginas,numeroClausulas);
+	}
+	
+	@RequestMapping(value="/eliminarControversia",method=RequestMethod.POST)
+	public int eliminarControversia(
+			@RequestParam(required=true) int codControversia) throws SQLException {
+    	return new ContratoDao().eliminarControversia(codControversia);
+	}
+	
+	@RequestMapping(value="/aprobarControversia",method=RequestMethod.POST)
+	public int aprobarControversia(
+			@RequestParam(required=true) int codControversia) throws SQLException {
+    	return new ContratoDao().aprobarControversia(codControversia);
+	}
+	
+	@RequestMapping(value="/buscarControversia",method=RequestMethod.POST)
+	public ArrayList<BuscarControversiaEntityService> buscarControversia(
+			@RequestParam(required=true) Date fechaIni, 
+			@RequestParam(required=true) Date fechaFin,
+			@RequestParam(required=true) String estado,
+			@RequestParam(required=true) String nomContrato) throws SQLException {
+    	return new ContratoDao().buscarControversia(fechaIni,fechaFin,estado,nomContrato);
+	}
 	
 	
 	
