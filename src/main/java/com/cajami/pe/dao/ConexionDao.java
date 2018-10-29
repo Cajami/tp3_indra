@@ -12,7 +12,7 @@ public class ConexionDao {
 	public ConexionDao() {
 		this.server = "127.0.0.1";
 		this.user="root";
-		this.pass="cajami23";
+		this.pass="taller3";
 		this.bd="tp2_contratos";
 	}
 	

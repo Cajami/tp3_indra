@@ -25,6 +25,7 @@ import com.cajami.pe.service.ContratoService;
 import com.cajami.pe.service.GerenteEntityService;
 
 @RestController
+@RequestMapping("/indraupc")
 public class ContratoClienteController {
 	
 	@SuppressWarnings("deprecation")
