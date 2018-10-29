@@ -11,6 +11,7 @@ public class ConsultarControversiaEntity {
 	private String desFirmanteContrato;
 	private int rucFirmanteContrato;
 	private String nombreContrato;
+	private String nombreAdenda;
 	private String nombreFirmante;
 	private String dniFirmante;
 	private String direcFirmante;
@@ -108,6 +109,12 @@ public class ConsultarControversiaEntity {
 	}
 	public void setCodFirmanteContrato(int codFirmanteContrato) {
 		this.codFirmanteContrato = codFirmanteContrato;
+	}
+	public String getNombreAdenda() {
+		return nombreAdenda;
+	}
+	public void setNombreAdenda(String nombreAdenda) {
+		this.nombreAdenda = nombreAdenda;
 	}
 	
 	

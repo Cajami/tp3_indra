@@ -338,5 +338,12 @@ public class ContratoClienteController {
     	return new ContratoDao().consultarControversia(codControversia,idFirmanteContrato);
 	}
 	
+	@RequestMapping(value="/buscarxContAdenda",method=RequestMethod.POST)
+	public ArrayList<ConsultarControversiaEntity> buscarxContAdenda(
+			@RequestParam(required=true) int codContrato,
+			@RequestParam(required=true) int codAdenda) throws SQLException {
+    	return new ContratoDao().buscarxContAdenda(codContrato,codAdenda);
+	}
+	
 		
 }

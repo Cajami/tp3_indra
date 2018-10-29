@@ -1206,6 +1206,7 @@ public ArrayList<ConsultarControversiaEntity> consultarControversia(int codContr
 				item.setDesFirmanteContrato(resultado.getString("descripcion"));
 				item.setRucFirmanteContrato(resultado.getInt("rucdni"));
 				item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
+				item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
 				item.setNombreFirmante(resultado.getString("nombres"));
 				item.setDniFirmante(resultado.getString("DNI"));
 				item.setDirecFirmante(resultado.getString("DIRECCION"));
@@ -1226,5 +1227,44 @@ public ArrayList<ConsultarControversiaEntity> consultarControversia(int codContr
 		}
 		return listaControversia;
 	}
+
+public ArrayList<ConsultarControversiaEntity> buscarxContAdenda(int codContrato,int codAdenda) throws SQLException{
+	
+	ArrayList<ConsultarControversiaEntity> listaControversia = new ArrayList<ConsultarControversiaEntity>();
+			
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_CON_BuscarxContAdenda(?,?) }");
+		
+		cst.setInt(1, codContrato);
+		cst.setInt(2, codAdenda);
+		
+		ResultSet resultado = cst.executeQuery();
+		ConsultarControversiaEntity item;
+					
+		while (resultado.next()) {
+			item = new ConsultarControversiaEntity();
+			
+			item.setNombreContrato(resultado.getString("nombre_contrato"));
+			item.setNombreAdenda(resultado.getString("nombre_adenda"));
+			item.setDesFirmanteContrato(resultado.getString("descripcion"));
+			item.setRucFirmanteContrato(resultado.getInt("rucdni"));
+			item.setDniFirmante(resultado.getString("dni"));
+			item.setNombreFirmante(resultado.getString("nombre"));
+			item.setDirecFirmante(resultado.getString("direccion"));
+			item.setFonoFirmante(resultado.getString("TELEFONO"));
+			item.setEmailFirmante(resultado.getString("EMAIL"));
+			listaControversia.add(item);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error:  "+ e.getMessage());
+		listaControversia = null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return listaControversia;
+}
 	
 }
