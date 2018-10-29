@@ -15,6 +15,7 @@ import com.cajami.pe.service.BuscarControversiaEntityService;
 import com.cajami.pe.service.ClausulaEntityService;
 import com.cajami.pe.service.ClienteEntityService;
 import com.cajami.pe.service.ConsultarContratoService;
+import com.cajami.pe.service.ConsultarControversiaEntity;
 import com.cajami.pe.service.ContratoEntityService;
 import com.cajami.pe.service.CronogramaEntityService;
 import com.cajami.pe.service.FirmanteEntityService;
@@ -1160,14 +1161,59 @@ ConexionDao conexion;
 				
 				item.setCodContrato(resultado.getInt("CODIGO_CONTRATO"));
 				item.setCodAdenda(resultado.getInt("CODIGO_ADENDA"));
-				item.setCodFirmante(resultado.getInt("CODIGO_FIRMANTE"));
+				item.setCodFirmanteControversia(resultado.getInt("firmante_controversia"));
 				item.setNomContrato(resultado.getString("NOMBRE_CONTRATO"));
 				item.setNomCliente(resultado.getString("CLIENTE"));
 				item.setEstado(resultado.getInt("ESTADO"));
 				item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
 				item.setFechaAprobacion(resultado.getDate("FECHA_APROBACION"));
 				item.setFechaUltimaMod(resultado.getDate("FECHA_ULTIMA_MODIFICACION"));
+				item.setCodFirmanteContrato(resultado.getInt("firmante_contrato"));
+				listaControversia.add(item);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error:  "+ e.getMessage());
+			listaControversia = null;
+		}finally {
+			if (this.conexion.getCon()!=null)
+				this.conexion.desconectar();
+		}
+		return listaControversia;
+	}
+	
+public ArrayList<ConsultarControversiaEntity> consultarControversia(int codControversia,int idFirmanteContrato) throws SQLException{
+		
+		ArrayList<ConsultarControversiaEntity> listaControversia = new ArrayList<ConsultarControversiaEntity>();
 				
+		try {
+			this.conexion.conectar();
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_CON_ConsultarControversia(?,?) }");
+			
+			cst.setInt(1, codControversia);
+			cst.setInt(2, idFirmanteContrato);
+			
+			ResultSet resultado = cst.executeQuery();
+			ConsultarControversiaEntity item;
+						
+			while (resultado.next()) {
+				item = new ConsultarControversiaEntity();
+				
+				item.setCodContrato(resultado.getInt("CODIGO_CONTRATO"));
+				item.setCodAdenda(resultado.getInt("CODIGO_ADENDA"));
+				item.setCodControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
+				item.setCodFirmante(resultado.getInt("cod_firmante"));
+				item.setDesFirmanteContrato(resultado.getString("descripcion"));
+				item.setRucFirmanteContrato(resultado.getInt("rucdni"));
+				item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
+				item.setNombreFirmante(resultado.getString("nombres"));
+				item.setDniFirmante(resultado.getString("DNI"));
+				item.setDirecFirmante(resultado.getString("DIRECCION"));
+				item.setFonoFirmante(resultado.getString("TELEFONO"));
+				item.setEmailFirmante(resultado.getString("EMAIL"));
+				item.setEstadoControversia(resultado.getInt("ESTAOD"));
+				item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
+				item.setCodFirmanteContrato(resultado.getInt("cod_cliente"));
 				listaControversia.add(item);
 			}
 		} catch (Exception e) {

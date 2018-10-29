@@ -6,13 +6,14 @@ public class BuscarControversiaEntityService {
 	
 	private int codContrato;
 	private int codAdenda;
-	private int codFirmante;
+	private int codFirmanteControversia;
 	private String nomContrato;
 	private String nomCliente;
 	private int estado;
 	private Date fechaRegistro;
 	private Date fechaAprobacion;
 	private Date fechaUltimaMod;
+	private int codFirmanteContrato;
 	
 	public int getCodContrato() {
 		return codContrato;
@@ -25,12 +26,6 @@ public class BuscarControversiaEntityService {
 	}
 	public void setCodAdenda(int codAdenda) {
 		this.codAdenda = codAdenda;
-	}
-	public int getCodFirmante() {
-		return codFirmante;
-	}
-	public void setCodFirmante(int codFirmante) {
-		this.codFirmante = codFirmante;
 	}
 	public String getNomContrato() {
 		return nomContrato;
@@ -68,6 +63,18 @@ public class BuscarControversiaEntityService {
 	public void setFechaUltimaMod(Date fechaUltimaMod) {
 		this.fechaUltimaMod = fechaUltimaMod;
 	}
-		
+	public int getCodFirmanteControversia() {
+		return codFirmanteControversia;
+	}
+	public void setCodFirmanteControversia(int codFirmanteControversia) {
+		this.codFirmanteControversia = codFirmanteControversia;
+	}
+	public int getCodFirmanteContrato() {
+		return codFirmanteContrato;
+	}
+	public void setCodFirmanteContrato(int codFirmanteContrato) {
+		this.codFirmanteContrato = codFirmanteContrato;
+	}
+	
 
 }
