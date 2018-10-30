@@ -9,7 +9,7 @@ public class ConsultarControversiaEntity {
 	private int codControversia;
 	private int codFirmante;
 	private String desFirmanteContrato;
-	private int rucFirmanteContrato;
+	private String rucFirmanteContrato;
 	private String nombreContrato;
 	private String nombreAdenda;
 	private String nombreFirmante;
@@ -50,10 +50,10 @@ public class ConsultarControversiaEntity {
 	public void setDesFirmanteContrato(String desFirmanteContrato) {
 		this.desFirmanteContrato = desFirmanteContrato;
 	}
-	public int getRucFirmanteContrato() {
+	public String getRucFirmanteContrato() {
 		return rucFirmanteContrato;
 	}
-	public void setRucFirmanteContrato(int rucFirmanteContrato) {
+	public void setRucFirmanteContrato(String rucFirmanteContrato) {
 		this.rucFirmanteContrato = rucFirmanteContrato;
 	}
 	public String getNombreContrato() {

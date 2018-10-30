@@ -1121,7 +1121,7 @@ ConexionDao conexion;
 			
 		try {
 			this.conexion.conectar();
-			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_CON_EliminarControversia(?) }");
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_CON_AprobarControversia(?) }");
 
 			cst.setInt(1, codControversia );		
 						
@@ -1140,7 +1140,7 @@ ConexionDao conexion;
 		return codigoGenerado;
 	}
 	
-	public ArrayList<BuscarControversiaEntityService> buscarControversia(Date fechaIni,Date fechaFin, String estado, String nomContrato) throws SQLException{
+	public ArrayList<BuscarControversiaEntityService> buscarControversia(String fechaIni,String fechaFin, String estado, String nomContrato) throws SQLException{
 		
 		ArrayList<BuscarControversiaEntityService> listaControversia = new ArrayList<BuscarControversiaEntityService>();
 				
@@ -1148,10 +1148,10 @@ ConexionDao conexion;
 			this.conexion.conectar();
 			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_CON_BuscarControversia(?,?,?,?) }");
 			
-			cst.setDate(1, fechaIni);
-			cst.setDate(1, fechaFin);
-			cst.setString(1, estado);
-			cst.setString(1, nomContrato);
+			cst.setString(1, fechaIni);
+			cst.setString(2, fechaFin);
+			cst.setString(3, estado);
+			cst.setString(4, nomContrato);
 			
 			ResultSet resultado = cst.executeQuery();
 			BuscarControversiaEntityService item;
@@ -1164,10 +1164,10 @@ ConexionDao conexion;
 				item.setCodFirmanteControversia(resultado.getInt("firmante_controversia"));
 				item.setNomContrato(resultado.getString("NOMBRE_CONTRATO"));
 				item.setNomCliente(resultado.getString("CLIENTE"));
-				item.setEstado(resultado.getInt("ESTADO"));
-				item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
-				item.setFechaAprobacion(resultado.getDate("FECHA_APROBACION"));
-				item.setFechaUltimaMod(resultado.getDate("FECHA_ULTIMA_MODIFICACION"));
+				item.setEstado(resultado.getInt("ESTAOD"));
+				item.setFechaRegistro(resultado.getString("FECHA_REGISTRO"));
+				item.setFechaAprobacion(resultado.getString("FECHA_APROBACION"));
+				item.setFechaUltimaMod(resultado.getString("FECHA_ULTIMA_MODIFICACION"));
 				item.setCodFirmanteContrato(resultado.getInt("firmante_contrato"));
 				listaControversia.add(item);
 			}
@@ -1204,7 +1204,7 @@ public ArrayList<ConsultarControversiaEntity> consultarControversia(int codContr
 				item.setCodControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
 				item.setCodFirmante(resultado.getInt("cod_firmante"));
 				item.setDesFirmanteContrato(resultado.getString("descripcion"));
-				item.setRucFirmanteContrato(resultado.getInt("rucdni"));
+				item.setRucFirmanteContrato(resultado.getString("rucdni"));
 				item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
 				item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
 				item.setNombreFirmante(resultado.getString("nombres"));
@@ -1248,7 +1248,7 @@ public ArrayList<ConsultarControversiaEntity> buscarxContAdenda(int codContrato,
 			item.setNombreContrato(resultado.getString("nombre_contrato"));
 			item.setNombreAdenda(resultado.getString("nombre_adenda"));
 			item.setDesFirmanteContrato(resultado.getString("descripcion"));
-			item.setRucFirmanteContrato(resultado.getInt("rucdni"));
+			item.setRucFirmanteContrato(resultado.getString("rucdni"));
 			item.setDniFirmante(resultado.getString("dni"));
 			item.setNombreFirmante(resultado.getString("nombre"));
 			item.setDirecFirmante(resultado.getString("direccion"));

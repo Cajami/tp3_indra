@@ -10,9 +10,9 @@ public class BuscarControversiaEntityService {
 	private String nomContrato;
 	private String nomCliente;
 	private int estado;
-	private Date fechaRegistro;
-	private Date fechaAprobacion;
-	private Date fechaUltimaMod;
+	private String fechaRegistro;
+	private String fechaAprobacion;
+	private String fechaUltimaMod;
 	private int codFirmanteContrato;
 	
 	public int getCodContrato() {
@@ -45,22 +45,22 @@ public class BuscarControversiaEntityService {
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-	public Date getFechaRegistro() {
+	public String getFechaRegistro() {
 		return fechaRegistro;
 	}
-	public void setFechaRegistro(Date fechaRegistro) {
+	public void setFechaRegistro(String fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
-	public Date getFechaAprobacion() {
+	public String getFechaAprobacion() {
 		return fechaAprobacion;
 	}
-	public void setFechaAprobacion(Date fechaAprobacion) {
+	public void setFechaAprobacion(String fechaAprobacion) {
 		this.fechaAprobacion = fechaAprobacion;
 	}
-	public Date getFechaUltimaMod() {
+	public String getFechaUltimaMod() {
 		return fechaUltimaMod;
 	}
-	public void setFechaUltimaMod(Date fechaUltimaMod) {
+	public void setFechaUltimaMod(String fechaUltimaMod) {
 		this.fechaUltimaMod = fechaUltimaMod;
 	}
 	public int getCodFirmanteControversia() {

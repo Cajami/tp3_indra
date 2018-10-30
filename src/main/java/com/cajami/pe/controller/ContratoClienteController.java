@@ -324,8 +324,8 @@ public class ContratoClienteController {
 	
 	@RequestMapping(value="/buscarControversia",method=RequestMethod.POST)
 	public ArrayList<BuscarControversiaEntityService> buscarControversia(
-			@RequestParam(required=true) Date fechaIni, 
-			@RequestParam(required=true) Date fechaFin,
+			@RequestParam(required=true) String fechaIni, 
+			@RequestParam(required=true) String fechaFin,
 			@RequestParam(required=true) String estado,
 			@RequestParam(required=true) String nomContrato) throws SQLException {
     	return new ContratoDao().buscarControversia(fechaIni,fechaFin,estado,nomContrato);
