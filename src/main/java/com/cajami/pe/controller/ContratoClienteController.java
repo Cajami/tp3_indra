@@ -339,11 +339,22 @@ public class ContratoClienteController {
     	return new ContratoDao().consultarControversia(codControversia,idFirmanteContrato);
 	}
 	
-	@RequestMapping(value="/buscarxContAdenda",method=RequestMethod.POST)
-	public ArrayList<ConsultarControversiaEntity> buscarxContAdenda(
-			@RequestParam(required=true) int codContrato,
+	@RequestMapping(value="/buscarFirmasAdendas",method=RequestMethod.POST)
+	public ArrayList<ContratoEntityService> buscarFirmasAdendas(
+			@RequestParam(required=true) int codCliente,
+			@RequestParam(required=true) int codUsuario) throws SQLException {
+
+	
+    	return new ContratoDao().buscarFirmasAdendas(codCliente,codUsuario);
+	}
+	
+	
+	@RequestMapping(value="/seleccionarFirmaAdenda",method=RequestMethod.POST)
+	public ConsultarContratoService seleccionarFirmaAdenda(
 			@RequestParam(required=true) int codAdenda) throws SQLException {
-    	return new ContratoDao().buscarxContAdenda(codContrato,codAdenda);
+
+	
+    	return new ContratoDao().seleccionarFirmaAdenda(codAdenda);
 	}
 	
 		

@@ -4,9 +4,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FirmanteEntityService {
+	public int codigoFirmante;
 	public String dni;
 	public String cliente;
 	public String perfil;
+	public int estado;
+	
 	public FirmanteEntityService() {
 		super();
 	}
@@ -27,6 +30,18 @@ public class FirmanteEntityService {
 	}
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
+	}
+	public int getCodigoFirmante() {
+		return codigoFirmante;
+	}
+	public void setCodigoFirmante(int codigoFirmante) {
+		this.codigoFirmante = codigoFirmante;
+	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 
 }

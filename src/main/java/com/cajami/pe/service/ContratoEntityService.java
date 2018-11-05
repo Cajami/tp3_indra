@@ -40,7 +40,18 @@ public class ContratoEntityService {
 	private String nombreAdenda;
 	private int numeroAdenda;
 	private String estadoAdenda;
+	
+	private String observacion;
+	private String area;
 		
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
 	public ContratoEntityService() {
 		super();
 	}
@@ -203,6 +214,14 @@ public class ContratoEntityService {
 
 	public void setNombreTipoServicio(String nombreTipoServicio) {
 		this.nombreTipoServicio = nombreTipoServicio;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 	public String getRucDni() {

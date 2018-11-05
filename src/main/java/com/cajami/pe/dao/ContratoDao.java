@@ -248,9 +248,7 @@ ConexionDao conexion;
 		}
 		return item;
 	}
-	
-	
-
+		
 	public int registrarContrato(
 			String dniRucCliente,
 			int codigoDistrito,
@@ -389,7 +387,6 @@ ConexionDao conexion;
 		return codigoGenerado;
 	}
 	
-
 	public int registrarPagoDetalle(int codigoAdenda,int anio,int mes,int numeroCuota, Date ultimoDiaPago) throws SQLException {
 		int codigoGenerado = 0;
 			
@@ -1266,5 +1263,122 @@ public ArrayList<ConsultarControversiaEntity> buscarxContAdenda(int codContrato,
 	}
 	return listaControversia;
 }
+
+
+//
+
+public ArrayList<ContratoEntityService> buscarFirmasAdendas(int codCliente,int codUsuario) throws SQLException{
 	
+	ArrayList<ContratoEntityService> listaFirmasAdendas = new ArrayList<ContratoEntityService>();
+			
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_FIR_Consultar_Adenda(?,?) }");
+		
+		cst.setInt(1, codCliente);
+		cst.setInt(2, codUsuario);
+		
+		ResultSet resultado = cst.executeQuery();
+		ContratoEntityService item;
+					
+		while (resultado.next()) {
+			item = new ContratoEntityService();
+			
+			item.setRucDni(resultado.getString("RUC_DNI"));
+			item.setCliente(resultado.getString("CLIENTE"));
+			item.setArea(resultado.getString("AREA"));
+			item.setCodigoContrato(resultado.getInt("CODIGO_CONTRATO"));
+			item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
+			item.setCodigoAdenda(resultado.getInt("CODIGO_ADENDA"));
+			item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
+			item.setEstadoAdenda(resultado.getString("ESTADO_ADENDA"));
+			item.setObservacion(resultado.getString("OBSERVACION"));
+		
+			listaFirmasAdendas.add(item);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("buscarFirmasAdendas:  "+ e.getMessage());
+		listaFirmasAdendas = null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return listaFirmasAdendas;
+}
+
+public ConsultarContratoService  seleccionarFirmaAdenda(int codAdenda) throws SQLException{
+	
+	//ArrayList<ContratoEntityService> listaFirmasAdendas = new ArrayList<ContratoEntityService>();
+	ConsultarContratoService consultarContrato  = new ConsultarContratoService();
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_FIR_SeleccionarAdenda(?) }");
+		
+		cst.setInt(1, codAdenda);
+		
+		ResultSet rs = null;
+		
+		cst.execute();
+		
+		rs = cst.getResultSet();
+						
+		if (rs.next()) {
+			ContratoEntityService item = new ContratoEntityService();
+			
+			item.setNombrePais(rs.getString("NOMBRE_PAIS"));
+			item.setNombreDepartamento(rs.getString("NOMBRE_DEPARTAMENTO"));
+			item.setNombreProvincia(rs.getString("NOMBRE_PROVINCIA"));
+			item.setNombreDistrito(rs.getString("NOMBRE_DISTRITO"));
+			item.setTipoContrato(rs.getInt("TIPO_CONTRATO"));
+			item.setNombreTipoServicio(rs.getString("NOMBRE_TIPO_SERVICIO"));
+			item.setCodigoContrato(rs.getInt("CODIGO_CONTRATO"));
+			item.setCodigoAdenda(rs.getInt("CODIGO_ADENDA"));
+			item.setNumeroContrato(rs.getInt("NUMERO_CONTRATO"));
+			item.setNombreContrato(rs.getString("NOMBRE_CONTRATO"));
+			item.setNumeroAdenda(rs.getInt("NUMERO_ADENDA"));
+			item.setNombreAdenda(rs.getString("NOMBRE_ADENDA"));
+			item.setNombreProyecto(rs.getString("NOMBRE_PROYECTO"));
+			item.setCliente(rs.getString("CLIENTE"));
+			item.setRucDni(rs.getString("RUC_DNI"));
+			item.setDireccion(rs.getString("DIRECCION"));
+			item.setActividad(rs.getString("ACTIVIDAD"));
+			
+			consultarContrato.setContrato(item);
+		}
+		
+		rs.close();
+		
+		/*NOS MOVEMOS AL SIGUIENTE RESULTADO*/
+		cst.getMoreResults();
+		
+		/*TABLA (FIRMAS)*/
+		rs = cst.getResultSet();
+		FirmanteEntityService itemFirmante = null;
+		
+		while (rs.next()) {
+			itemFirmante =new FirmanteEntityService();
+			itemFirmante.setCodigoFirmante(rs.getInt("CODIGO_FIRMANTE"));
+			itemFirmante.setDni(rs.getString("DNI"));
+			itemFirmante.setCliente(rs.getString("CLIENTE_USUARIO"));
+			itemFirmante.setPerfil(rs.getString("PERFIL"));
+			itemFirmante.setEstado(rs.getInt("ESTADO"));
+			
+			consultarContrato.getFirmante().add(itemFirmante);
+		}
+		
+		rs.close();
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("seleccionarFirmaAdenda:  "+ e.getMessage());
+		consultarContrato = null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return consultarContrato;
+}
+
+
 }
