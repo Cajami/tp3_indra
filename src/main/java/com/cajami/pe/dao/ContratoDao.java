@@ -1161,7 +1161,7 @@ ConexionDao conexion;
 				item.setCodFirmanteControversia(resultado.getInt("firmante_controversia"));
 				item.setNomContrato(resultado.getString("NOMBRE_CONTRATO"));
 				item.setNomCliente(resultado.getString("CLIENTE"));
-				item.setEstado(resultado.getInt("ESTAOD"));
+				item.setEstado(resultado.getString("ESTAOD"));
 				item.setFechaRegistro(resultado.getString("FECHA_REGISTRO"));
 				item.setFechaAprobacion(resultado.getString("FECHA_APROBACION"));
 				item.setFechaUltimaMod(resultado.getString("FECHA_ULTIMA_MODIFICACION"));

@@ -9,7 +9,7 @@ public class BuscarControversiaEntityService {
 	private int codFirmanteControversia;
 	private String nomContrato;
 	private String nomCliente;
-	private int estado;
+	private String estado;
 	private String fechaRegistro;
 	private String fechaAprobacion;
 	private String fechaUltimaMod;
@@ -39,10 +39,10 @@ public class BuscarControversiaEntityService {
 	public void setNomCliente(String nomCliente) {
 		this.nomCliente = nomCliente;
 	}
-	public int getEstado() {
+	public String getEstado() {
 		return estado;
 	}
-	public void setEstado(int estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 	public String getFechaRegistro() {
