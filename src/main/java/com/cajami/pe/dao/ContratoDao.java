@@ -1196,8 +1196,8 @@ public ArrayList<ConsultarControversiaEntity> consultarControversia(int codContr
 			while (resultado.next()) {
 				item = new ConsultarControversiaEntity();
 				
-				item.setCodContrato(resultado.getInt("CODIGO_CONTRATO"));
-				item.setCodAdenda(resultado.getInt("CODIGO_ADENDA"));
+				item.setNumContrato(resultado.getInt("NUMERO_CONTRATO"));
+				item.setNumAdenda(resultado.getInt("NUMERO_ADENDA"));
 				item.setCodControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
 				item.setCodFirmante(resultado.getInt("cod_firmante"));
 				item.setDesFirmanteContrato(resultado.getString("descripcion"));
@@ -1212,6 +1212,9 @@ public ArrayList<ConsultarControversiaEntity> consultarControversia(int codContr
 				item.setEstadoControversia(resultado.getInt("ESTAOD"));
 				item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
 				item.setCodFirmanteContrato(resultado.getInt("cod_cliente"));
+				item.setDescripcionControversia(resultado.getString("DESCRIPCION_CONTROVERSIA"));
+				item.setNumClausula(resultado.getInt("NUMERO_PAGINA"));
+				item.setNumPagina(resultado.getInt("NUMERO_CLAUSULA"));
 				listaControversia.add(item);
 			}
 		} catch (Exception e) {
