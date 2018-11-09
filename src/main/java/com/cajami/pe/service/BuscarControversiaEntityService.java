@@ -6,6 +6,7 @@ public class BuscarControversiaEntityService {
 	
 	private int codContrato;
 	private int codAdenda;
+	private int codControversia;
 	private int codFirmanteControversia;
 	private String nomContrato;
 	private String nomCliente;
@@ -74,6 +75,12 @@ public class BuscarControversiaEntityService {
 	}
 	public void setCodFirmanteContrato(int codFirmanteContrato) {
 		this.codFirmanteContrato = codFirmanteContrato;
+	}
+	public int getCodControversia() {
+		return codControversia;
+	}
+	public void setCodControversia(int codControversia) {
+		this.codControversia = codControversia;
 	}
 	
 

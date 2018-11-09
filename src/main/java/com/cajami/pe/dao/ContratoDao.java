@@ -1158,6 +1158,7 @@ ConexionDao conexion;
 				
 				item.setCodContrato(resultado.getInt("CODIGO_CONTRATO"));
 				item.setCodAdenda(resultado.getInt("CODIGO_ADENDA"));
+				item.setCodControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
 				item.setCodFirmanteControversia(resultado.getInt("firmante_controversia"));
 				item.setNomContrato(resultado.getString("NOMBRE_CONTRATO"));
 				item.setNomCliente(resultado.getString("CLIENTE"));
