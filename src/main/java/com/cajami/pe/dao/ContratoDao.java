@@ -1,9 +1,16 @@
 package com.cajami.pe.dao;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Date;
 
 import com.cajami.pe.service.AD_BuscarContratoEntityService;
@@ -1344,6 +1351,8 @@ public ConsultarContratoService  seleccionarFirmaAdenda(int codAdenda) throws SQ
 			item.setDireccion(rs.getString("DIRECCION"));
 			item.setActividad(rs.getString("ACTIVIDAD"));
 			
+			item.setRutaAdenda(rs.getString("RUTA_ADENDA"));
+			
 			consultarContrato.setContrato(item);
 		}
 		
@@ -1380,5 +1389,92 @@ public ConsultarContratoService  seleccionarFirmaAdenda(int codAdenda) throws SQ
 	return consultarContrato;
 }
 
+
+public int firmarContratoAdenda(int codigoAdenda,int codUsuario, int opcionCliente) throws SQLException {			
+		
+		int codigo = 0;
+		
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_FIR_FirmarContrato(?,?,?) }");
+
+		cst.setInt(1, codigoAdenda);
+		cst.setInt(2, codUsuario);
+		cst.setInt(3, opcionCliente);
+					
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (firmarContratoAdenda):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+
+public int observarAdendaFirmar(int codigoAdenda,int codUsuario, String observacion) throws SQLException {			
+		
+	int codigo = 0;
+		
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_FIR_ObservarAdenda(?,?,?) }");
+
+		cst.setInt(1, codigoAdenda);
+		cst.setInt(2, codUsuario);
+		cst.setString(3, observacion);
+					
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (observarAdendaFirmar):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+public int guardarFirmaContratoAdenda(int codigoAdenda,MultipartFile documento) throws SQLException {
+	int codigo = 0;
+	
+	try {
+		//saveUploadedFile(documento);
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_FIR_SubirDocumento(?,?) }");
+
+		cst.setInt(1, codigoAdenda);
+		cst.setBytes(2, documento.getBytes());
+					
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (guardarFirmaContratoAdenda):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+private void saveUploadedFile(MultipartFile file) throws Exception{
+    if (!file.isEmpty()) {
+        byte[] bytes = file.getBytes();
+        Files.write(Paths.get("D:/" + file.getOriginalFilename()), bytes);
+    }
+}
 
 }

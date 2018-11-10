@@ -43,7 +43,17 @@ public class ContratoEntityService {
 	
 	private String observacion;
 	private String area;
-		
+	
+	private String rutaAdenda;
+				
+	public String getRutaAdenda() {
+		return rutaAdenda;
+	}
+
+	public void setRutaAdenda(String rutaAdenda) {
+		this.rutaAdenda = rutaAdenda;
+	}
+
 	public String getArea() {
 		return area;
 	}

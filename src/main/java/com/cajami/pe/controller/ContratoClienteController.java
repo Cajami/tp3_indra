@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -352,10 +354,38 @@ public class ContratoClienteController {
 	@RequestMapping(value="/seleccionarFirmaAdenda",method=RequestMethod.POST)
 	public ConsultarContratoService seleccionarFirmaAdenda(
 			@RequestParam(required=true) int codAdenda) throws SQLException {
-
 	
     	return new ContratoDao().seleccionarFirmaAdenda(codAdenda);
 	}
 	
-		
+	@RequestMapping(value="/firmarContratoAdenda",method=RequestMethod.POST)
+	public int firmarContratoAdenda(
+			@RequestParam(required=true) int codAdenda,
+			@RequestParam(required=true) int codUsuario,
+			@RequestParam(required=true) int opcionCliente) throws SQLException {
+    	return new ContratoDao().firmarContratoAdenda(codAdenda,codUsuario,opcionCliente);
+	}
+
+	@RequestMapping(value="/observarAdendaFirmar",method=RequestMethod.POST)
+	public int observarAdendaFirmar(
+			@RequestParam(required=true) int codAdenda,
+			@RequestParam(required=true) int codUsuario,
+			@RequestParam(required=true) String observacion) throws SQLException {
+	
+    	return new ContratoDao().observarAdendaFirmar(codAdenda,codUsuario,observacion);
+	}
+
+
+	
+
+	@RequestMapping(value="/guardarFirmaContratoAdenda",method=RequestMethod.POST)
+	public int guardarFirmaContratoAdenda(
+			@RequestParam(required=true) int codAdenda,
+			@RequestParam(required=true) @ModelAttribute MultipartFile documento) throws SQLException {
+	
+    	return new ContratoDao().guardarFirmaContratoAdenda(codAdenda,documento);
+	}
+	
+
+
 }
