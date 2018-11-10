@@ -6,10 +6,11 @@ public class BuscarControversiaEntityService {
 	
 	private int codContrato;
 	private int codAdenda;
+	private int codControversia;
 	private int codFirmanteControversia;
 	private String nomContrato;
 	private String nomCliente;
-	private int estado;
+	private String estado;
 	private String fechaRegistro;
 	private String fechaAprobacion;
 	private String fechaUltimaMod;
@@ -39,10 +40,10 @@ public class BuscarControversiaEntityService {
 	public void setNomCliente(String nomCliente) {
 		this.nomCliente = nomCliente;
 	}
-	public int getEstado() {
+	public String getEstado() {
 		return estado;
 	}
-	public void setEstado(int estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 	public String getFechaRegistro() {
@@ -74,6 +75,12 @@ public class BuscarControversiaEntityService {
 	}
 	public void setCodFirmanteContrato(int codFirmanteContrato) {
 		this.codFirmanteContrato = codFirmanteContrato;
+	}
+	public int getCodControversia() {
+		return codControversia;
+	}
+	public void setCodControversia(int codControversia) {
+		this.codControversia = codControversia;
 	}
 	
 

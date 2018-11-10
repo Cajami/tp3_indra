@@ -4,8 +4,8 @@ import java.sql.Date;
 
 public class ConsultarControversiaEntity {
 	
-	private int codContrato;
-	private int codAdenda;
+	private int numContrato;
+	private int numAdenda;
 	private int codControversia;
 	private int codFirmante;
 	private String desFirmanteContrato;
@@ -20,17 +20,41 @@ public class ConsultarControversiaEntity {
 	private int estadoControversia;
 	private Date fechaRegistro;
 	private int codFirmanteContrato;
-	public int getCodContrato() {
-		return codContrato;
+	private String descripcionControversia;
+	private int numPagina;
+	private int numClausula;
+	
+	
+
+	public int getNumContrato() {
+		return numContrato;
 	}
-	public void setCodContrato(int codContrato) {
-		this.codContrato = codContrato;
+	public void setNumContrato(int numContrato) {
+		this.numContrato = numContrato;
 	}
-	public int getCodAdenda() {
-		return codAdenda;
+	public int getNumAdenda() {
+		return numAdenda;
 	}
-	public void setCodAdenda(int codAdenda) {
-		this.codAdenda = codAdenda;
+	public void setNumAdenda(int numAdenda) {
+		this.numAdenda = numAdenda;
+	}
+	public String getDescripcionControversia() {
+		return descripcionControversia;
+	}
+	public void setDescripcionControversia(String descripcionControversia) {
+		this.descripcionControversia = descripcionControversia;
+	}
+	public int getNumPagina() {
+		return numPagina;
+	}
+	public void setNumPagina(int numPagina) {
+		this.numPagina = numPagina;
+	}
+	public int getNumClausula() {
+		return numClausula;
+	}
+	public void setNumClausula(int numClausula) {
+		this.numClausula = numClausula;
 	}
 	public int getCodControversia() {
 		return codControversia;
