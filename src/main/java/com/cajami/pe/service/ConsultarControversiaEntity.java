@@ -23,6 +23,7 @@ public class ConsultarControversiaEntity {
 	private String descripcionControversia;
 	private int numPagina;
 	private int numClausula;
+	private String codigoControversia;
 	
 	
 
@@ -139,6 +140,12 @@ public class ConsultarControversiaEntity {
 	}
 	public void setNombreAdenda(String nombreAdenda) {
 		this.nombreAdenda = nombreAdenda;
+	}
+	public String getCodigoControversia() {
+		return codigoControversia;
+	}
+	public void setCodigoControversia(String codigoControversia) {
+		this.codigoControversia = codigoControversia;
 	}
 	
 	

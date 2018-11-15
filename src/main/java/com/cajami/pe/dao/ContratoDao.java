@@ -1045,7 +1045,13 @@ ConexionDao conexion;
 			
 						
 			ResultSet rs = cst.executeQuery();
+			
 			if (rs.next()) {
+				// codigoGenerado=1 >> Número de páginas no valido
+				// codigoGenerado=2 >> Número de clausula no válido
+				// codigoGenerado=3 >> Ya existe controversia para la adenda
+				// codigoGenerado=4 >> Registro exitoso
+				
 				codigoGenerado = rs.getInt(1);
 			}
 			
@@ -1144,18 +1150,16 @@ ConexionDao conexion;
 		return codigoGenerado;
 	}
 	
-	public ArrayList<BuscarControversiaEntityService> buscarControversia(String fechaIni,String fechaFin, String estado, String nomContrato) throws SQLException{
+	public ArrayList<BuscarControversiaEntityService> buscarControversia(String estado, String nomContrato) throws SQLException{
 		
 		ArrayList<BuscarControversiaEntityService> listaControversia = new ArrayList<BuscarControversiaEntityService>();
 				
 		try {
 			this.conexion.conectar();
-			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_CON_BuscarControversia(?,?,?,?) }");
+			CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_CON_BuscarControversia(?,?) }");
 			
-			cst.setString(1, fechaIni);
-			cst.setString(2, fechaFin);
-			cst.setString(3, estado);
-			cst.setString(4, nomContrato);
+			cst.setString(1, estado);
+			cst.setString(2, nomContrato);
 			
 			ResultSet resultado = cst.executeQuery();
 			BuscarControversiaEntityService item;
@@ -1262,6 +1266,7 @@ public ArrayList<ConsultarControversiaEntity> buscarxContAdenda(int codContrato,
 			item.setDirecFirmante(resultado.getString("direccion"));
 			item.setFonoFirmante(resultado.getString("TELEFONO"));
 			item.setEmailFirmante(resultado.getString("EMAIL"));
+			item.setCodigoControversia(resultado.getString("cod_controversia"));
 			listaControversia.add(item);
 		}
 	} catch (Exception e) {
