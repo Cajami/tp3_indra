@@ -14,11 +14,25 @@ public class AD_BuscarContratoEntityService {
 	private int numeroSolicitud;
 	private String estadoSolicitud;
 	private String estadoAdenda;
+	private int codigoControversia;
+	
 	
 	public AD_BuscarContratoEntityService() {
 		super();
 	}
 	
+	public int getCodigoControversia() {
+		return codigoControversia;
+	}
+
+
+
+	public void setCodigoControversia(int codigoControversia) {
+		this.codigoControversia = codigoControversia;
+	}
+
+
+
 	public int getCodigoContrato() {
 		return codigoContrato;
 	}

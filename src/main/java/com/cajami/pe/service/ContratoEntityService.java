@@ -45,7 +45,45 @@ public class ContratoEntityService {
 	private String area;
 	
 	private String rutaAdenda;
-				
+	
+	private int codigoSolicitud;
+	private int numeroSolicitud;
+	private String estadoSolicitud;
+	
+	private int codigoControversia;
+					
+	public int getCodigoControversia() {
+		return codigoControversia;
+	}
+
+	public void setCodigoControversia(int codigoControversia) {
+		this.codigoControversia = codigoControversia;
+	}
+
+	public String getEstadoSolicitud() {
+		return estadoSolicitud;
+	}
+
+	public void setEstadoSolicitud(String estadoSolicitud) {
+		this.estadoSolicitud = estadoSolicitud;
+	}
+
+	public int getCodigoSolicitud() {
+		return codigoSolicitud;
+	}
+
+	public void setCodigoSolicitud(int codigoSolicitud) {
+		this.codigoSolicitud = codigoSolicitud;
+	}
+
+	public int getNumeroSolicitud() {
+		return numeroSolicitud;
+	}
+
+	public void setNumeroSolicitud(int numeroSolicitud) {
+		this.numeroSolicitud = numeroSolicitud;
+	}
+
 	public String getRutaAdenda() {
 		return rutaAdenda;
 	}

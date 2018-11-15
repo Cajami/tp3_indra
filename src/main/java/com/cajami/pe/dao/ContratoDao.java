@@ -643,8 +643,8 @@ ConexionDao conexion;
 				item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
 				item.setNumeroSolicitud(resultado.getInt("NUMERO_SOLICITUD"));
 				item.setEstadoSolicitud(resultado.getString("ESTADO_SOLICITUD"));
+				item.setCodigoControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
 				item.setEstadoAdenda(resultado.getString("ESTADO_ADENDA"));
-				
 				listaContratos.add(item);
 			}
 		} catch (Exception e) {
@@ -1453,16 +1453,16 @@ public int guardarFirmaContratoAdenda(int codigoAdenda,MultipartFile documento) 
 	int codigo = 0;
 	
 	try {
-		//saveUploadedFile(documento);
 		this.conexion.conectar();
 		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_FIR_SubirDocumento(?,?) }");
 
 		cst.setInt(1, codigoAdenda);
-		cst.setBytes(2, documento.getBytes());
+		cst.setString(2, documento.getOriginalFilename()+".pdf");
 					
 		ResultSet rs = cst.executeQuery();
 		if (rs.next()) {
 			codigo = rs.getInt(1);
+			saveUploadedFile(documento);
 		}
 	} catch (Exception e) {
 		// TODO: handle exception
@@ -1476,9 +1476,140 @@ public int guardarFirmaContratoAdenda(int codigoAdenda,MultipartFile documento) 
 
 private void saveUploadedFile(MultipartFile file) throws Exception{
     if (!file.isEmpty()) {
-        byte[] bytes = file.getBytes();
-        Files.write(Paths.get("D:/" + file.getOriginalFilename()), bytes);
+    	byte[] bytes = file.getBytes();
+        Files.write(Paths.get("D:/DocumentosTaller3/" + file.getOriginalFilename() + ".pdf"), bytes);
     }
+}
+
+public ArrayList<ContratoEntityService> buscarSolicitudCambios(int codigoCliente, Date fechaInicio) throws SQLException{
+	
+	ArrayList<ContratoEntityService> listaSolicitudesCambios = new ArrayList<ContratoEntityService>();
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_SC_BuscarSolicitudCambios(?,?) }");
+		cst.setInt(1,codigoCliente);
+		cst.setDate(2,fechaInicio );
+		
+		ResultSet resultado = cst.executeQuery();
+		ContratoEntityService item;
+					
+		while (resultado.next()) {
+			item = new ContratoEntityService();
+			
+			item.setCodigoSolicitud(resultado.getInt("CODIGO_SOLICITUD"));
+			item.setNumeroSolicitud(resultado.getInt("NUMERO_SOLICITUD"));
+			item.setCodigoContrato(resultado.getInt("CODIGO_CONTRATO"));
+			item.setNumeroContrato(resultado.getInt("NUMERO_CONTRATO"));
+			item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
+			item.setCodigoAdenda(resultado.getInt("CODIGO_ADENDA"));
+			item.setNumeroAdenda(resultado.getInt("NUMERO_ADENDA"));
+			item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
+			item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
+			item.setEstadoSolicitud(resultado.getString("ESTADO_SOLICITUD"));
+							
+			listaSolicitudesCambios.add(item);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("(buscarSolicitudCambios): "+ e.getMessage());
+		listaSolicitudesCambios = null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return listaSolicitudesCambios;
+}
+
+
+
+
+
+public ContratoEntityService seleccionarAdendaSolicitudCambios(int codigoAdenda) throws SQLException{
+	
+	ContratoEntityService item = null;
+		
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall("{ CALL SP_SC_SeleccionarAdenda(?) }");
+		cst.setInt(1,codigoAdenda);
+		
+		ResultSet resultado = cst.executeQuery();
+					
+		while (resultado.next()) {
+			item = new ContratoEntityService();
+			
+			item.setNumeroSolicitud(resultado.getInt("NUMERO_SOLICITUD"));
+			item.setCodigoContrato(resultado.getInt("CODIGO_CONTRATO"));
+			item.setNumeroContrato(resultado.getInt("NUMERO_CONTRATO"));
+			item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
+			item.setCodigoAdenda(resultado.getInt("CODIGO_ADENDA"));
+			item.setNumeroAdenda(resultado.getInt("NUMERO_ADENDA"));
+			item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
+			item.setCliente(resultado.getString("CLIENTE"));
+			item.setRucDni(resultado.getString("RUC_DNI"));
+			item.setCodigoControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("(seleccionarAdendaSolicitudCambios): "+ e.getMessage());
+		item = null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return item;
+}
+
+
+public int registrarSolicitudCambios(int codigoAdenda) throws SQLException {
+	int codigo = 0;
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_SC_RegistrarSolicitudCambios(?) }");
+
+		cst.setInt(1, codigoAdenda);
+		
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (registrarSolicitudCambios):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+
+
+public int registrarClausulaSolicitudCambios(int codigoSolicitud, int numeroClausula, String detalle) throws SQLException {
+	int codigo = 0;
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_SC_RegistrarClausulas(?,?,?) }");
+
+		cst.setInt(1, codigoSolicitud);
+		cst.setInt(2, numeroClausula);
+		cst.setString(3, detalle);
+		
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (registrarClausulaSolicitudCambios):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
 }
 
 }

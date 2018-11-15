@@ -393,6 +393,30 @@ public class ContratoClienteController {
     	return new ContratoDao().guardarFirmaContratoAdenda(codAdenda,documento);
 	}
 	
+	@RequestMapping(value="/buscarSolicitudCambios",method=RequestMethod.POST)
+	public ArrayList<ContratoEntityService> buscarSolicitudCambios(
+			@RequestParam(required=true) int codigoCliente, 
+			@RequestParam(required=true) Date fechaRegistro) throws SQLException {
+    	return new ContratoDao().buscarSolicitudCambios(codigoCliente, fechaRegistro);
+	}
 
-
+	@RequestMapping(value="/seleccionarAdendaSolicitudCambios",method=RequestMethod.POST)
+	public ContratoEntityService seleccionarAdendaSolicitudCambios(
+			@RequestParam(required=true) int codigoAdenda) throws SQLException {
+    	return new ContratoDao().seleccionarAdendaSolicitudCambios(codigoAdenda);
+	}
+    
+	@RequestMapping(value="/registrarSolicitudCambios",method=RequestMethod.POST)
+	public int registrarSolicitudCambios(
+			@RequestParam(required=true) int codigoAdenda) throws SQLException {
+    	return new ContratoDao().registrarSolicitudCambios(codigoAdenda);
+	}
+	
+	@RequestMapping(value="/registrarClausulaSolicitudCambios",method=RequestMethod.POST)
+	public int registrarClausulaSolicitudCambios(
+			@RequestParam(required=true) int codigoSolicitud,
+			@RequestParam(required=true) int numeroClausula,
+			@RequestParam(required=true) String detalle) throws SQLException {
+    	return new ContratoDao().registrarClausulaSolicitudCambios(codigoSolicitud,numeroClausula,detalle);
+	}
 }
