@@ -7,6 +7,23 @@ public class ClausulaEntityService {
 	private int codigoImpresion;
 	private int codigoAdenda;
 	private int numeroClausula;
+	private int codigoDetalleCambio;
+	private String detalle;
+	
+	
+	
+	public int getCodigoDetalleCambio() {
+		return codigoDetalleCambio;
+	}
+	public void setCodigoDetalleCambio(int codigoDetalleCambio) {
+		this.codigoDetalleCambio = codigoDetalleCambio;
+	}
+	public String getDetalle() {
+		return detalle;
+	}
+	public void setDetalle(String detalle) {
+		this.detalle = detalle;
+	}
 	public ClausulaEntityService() {
 		super();
 	}

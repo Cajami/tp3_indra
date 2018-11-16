@@ -417,4 +417,43 @@ public class ContratoClienteController {
 			@RequestParam(required=true) String detalle) throws SQLException {
     	return new ContratoDao().registrarClausulaSolicitudCambios(codigoSolicitud,numeroClausula,detalle);
 	}
+	
+	
+	@RequestMapping(value="/consultarSolicitudCambio",method=RequestMethod.POST)
+	public ConsultarContratoService consultarSolicitudCambio(
+			@RequestParam(required=true) int codigoSolicitud) throws SQLException {
+    	return new ContratoDao().consultarSolicitudCambio(codigoSolicitud);
+	}
+	
+	@RequestMapping(value="/modificarSolicitudCambio",method=RequestMethod.POST)
+	public int modificarSolicitudCambio(
+			@RequestParam(required=true) int codigoSolicitud) throws SQLException {
+    	return new ContratoDao().modificarSolicitudCambio(codigoSolicitud);
+	}
+	
+	@RequestMapping(value="/eliminarSolicitudCambio",method=RequestMethod.POST)
+	public int eliminarSolicitudCambio(
+			@RequestParam(required=true) int codigoSolicitud) throws SQLException {
+    	return new ContratoDao().eliminarSolicitudCambio(codigoSolicitud);
+	}
+	
+	
+	@RequestMapping(value="/aprobarSolicitudCambio",method=RequestMethod.POST)
+	public int aprobarSolicitudCambio(
+			@RequestParam(required=true) int codigoSolicitud) throws SQLException {
+    	return new ContratoDao().aprobarSolicitudCambio(codigoSolicitud);
+	}	
+	
+	
+	
+	
+	//SP_SC_ConsultarSolicitudCambios
+	
 }
+
+
+
+
+
+
+

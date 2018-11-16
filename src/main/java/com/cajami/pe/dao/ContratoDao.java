@@ -1225,8 +1225,10 @@ public ArrayList<ConsultarControversiaEntity> consultarControversia(int codContr
 				item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
 				item.setCodFirmanteContrato(resultado.getInt("cod_cliente"));
 				item.setDescripcionControversia(resultado.getString("DESCRIPCION_CONTROVERSIA"));
-				item.setNumClausula(resultado.getInt("NUMERO_PAGINA"));
-				item.setNumPagina(resultado.getInt("NUMERO_CLAUSULA"));
+				item.setNumClausula(resultado.getInt("NUMERO_CLAUSULA"));
+				item.setNumPagina(resultado.getInt("NUMERO_PAGINA"));
+				
+				
 				listaControversia.add(item);
 			}
 		} catch (Exception e) {
@@ -1610,6 +1612,145 @@ public int registrarClausulaSolicitudCambios(int codigoSolicitud, int numeroClau
 	} catch (Exception e) {
 		// TODO: handle exception
 		System.err.println("Error (registrarClausulaSolicitudCambios):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+
+public ConsultarContratoService consultarSolicitudCambio(int codigoSolicitud) throws SQLException {
+	ConsultarContratoService contrato = new ConsultarContratoService();
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_SC_ConsultarSolicitudCambios(?) }");
+
+		cst.setInt(1, codigoSolicitud);
+		
+		ResultSet resultado = cst.executeQuery();
+		
+		if (resultado.next()) {
+			ContratoEntityService item = new ContratoEntityService();
+			
+			item.setCodigoSolicitud(resultado.getInt("CODIGO_SOLICITUD"));
+			item.setFechaRegistro(resultado.getDate("FECHA_REGISTRO"));
+			item.setNumeroSolicitud(resultado.getInt("NUMERO_SOLICITUD"));
+			item.setCodigoContrato(resultado.getInt("CODIGO_CONTRATO"));
+			item.setNumeroContrato(resultado.getInt("NUMERO_CONTRATO"));
+			item.setNombreContrato(resultado.getString("NOMBRE_CONTRATO"));
+			item.setCodigoAdenda(resultado.getInt("CODIGO_ADENDA"));
+			item.setNumeroAdenda(resultado.getInt("NUMERO_ADENDA"));
+			item.setNombreAdenda(resultado.getString("NOMBRE_ADENDA"));
+			item.setCliente(resultado.getString("CLIENTE"));
+			item.setRucDni(resultado.getString("RUC_DNI"));
+			item.setCodigoControversia(resultado.getInt("CODIGO_CONTROVERSIA"));
+			
+			contrato.setContrato(item);
+		}
+		
+		resultado.close();
+		
+		/*NOS MOVEMOS AL SIGUIENTE RESULTADO*/
+		cst.getMoreResults();
+		
+		/*SEGUNDA TABLA (ANTECEDENTES)*/
+		resultado = cst.getResultSet();
+		
+		ArrayList<ClausulaEntityService> clausula = new ArrayList<>();
+		ClausulaEntityService itemClausula = null;
+
+		while (resultado.next()) {
+			itemClausula = new ClausulaEntityService();
+			itemClausula.setCodigoDetalleCambio(resultado.getInt("CODIGO_DETALLE_CAMBIO"));
+			itemClausula.setNumeroClausula(resultado.getInt("NUMERO_CLAUSULA"));
+			itemClausula.setDetalle(resultado.getString("DETALLE"));
+			
+			clausula.add(itemClausula);
+					
+		}
+		contrato.setClausula(clausula);
+		
+		resultado.close();
+		
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (consultarSolicitudCambio):  "+ e.getMessage());
+		contrato = null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return contrato;
+}
+
+
+public int modificarSolicitudCambio(int codigoSolicitud) throws SQLException {
+	int codigo = 0;
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_SC_ModificarSolicitudCambios(?) }");
+
+		cst.setInt(1, codigoSolicitud);
+		
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (modificarSolicitudCambio):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+
+public int eliminarSolicitudCambio(int codigoSolicitud) throws SQLException {
+	int codigo = 0;
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_SC_RechazarSolicitud(?) }");
+
+		cst.setInt(1, codigoSolicitud);
+		
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (eliminarSolicitudCambio):  "+ e.getMessage());
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return codigo;
+}
+
+
+public int aprobarSolicitudCambio(int codigoSolicitud) throws SQLException {
+	int codigo = 0;
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_SC_AprobarSolicitud(?) }");
+
+		cst.setInt(1, codigoSolicitud);
+		
+		ResultSet rs = cst.executeQuery();
+		if (rs.next()) {
+			codigo = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (eliminarSolicitudCambio):  "+ e.getMessage());
 	}finally {
 		if (this.conexion.getCon()!=null)
 			this.conexion.desconectar();
