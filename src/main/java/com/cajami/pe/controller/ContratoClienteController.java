@@ -27,6 +27,7 @@ import com.cajami.pe.service.ContratoEntityService;
 import com.cajami.pe.service.ContratoService;
 import com.cajami.pe.service.BuscarControversiaEntityService;
 import com.cajami.pe.service.GerenteEntityService;
+import com.cajami.pe.service.UsuarioEntityService;
 
 @RestController
 @RequestMapping("/indraupc")
@@ -443,6 +444,12 @@ public class ContratoClienteController {
 			@RequestParam(required=true) int codigoSolicitud) throws SQLException {
     	return new ContratoDao().aprobarSolicitudCambio(codigoSolicitud);
 	}	
+	
+	@RequestMapping(value="/buscarUsuarios",method=RequestMethod.POST)
+	public ArrayList<UsuarioEntityService> buscarUsuarios() throws SQLException {
+    	return new ContratoDao().buscarUsuarios();
+	}	
+	
 	
 	
 	

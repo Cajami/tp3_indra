@@ -28,6 +28,7 @@ import com.cajami.pe.service.CronogramaEntityService;
 import com.cajami.pe.service.FirmanteEntityService;
 import com.cajami.pe.service.GerenteEntityService;
 import com.cajami.pe.service.PagoEntityService;
+import com.cajami.pe.service.UsuarioEntityService;
 
 public class ContratoDao {
 	
@@ -1483,6 +1484,8 @@ public int guardarFirmaContratoAdenda(int codigoAdenda,MultipartFile documento) 
 
 private void saveUploadedFile(MultipartFile file) throws Exception{
     if (!file.isEmpty()) {
+		System.err.println("Antessss:  "+ file.getOriginalFilename());
+
     	byte[] bytes = file.getBytes();
         Files.write(Paths.get("D:/DocumentosTaller3/" + file.getOriginalFilename() + ".pdf"), bytes);
     }
@@ -1756,6 +1759,37 @@ public int aprobarSolicitudCambio(int codigoSolicitud) throws SQLException {
 			this.conexion.desconectar();
 	}
 	return codigo;
+}
+
+
+
+public ArrayList<UsuarioEntityService> buscarUsuarios() throws SQLException {
+	ArrayList<UsuarioEntityService> listaUsuarios = new ArrayList<>();
+	
+	try {
+		this.conexion.conectar();
+		CallableStatement cst = (CallableStatement) this.conexion.getCon().prepareCall(" { CALL SP_BuscarUsuario() }");
+
+
+		ResultSet resultado = cst.executeQuery();
+
+		UsuarioEntityService item = null;
+		while(resultado.next()) {
+			item = new UsuarioEntityService();
+			item.setCodigoFirmante(resultado.getInt("CODIGO_FIRMANTE"));
+			item.setUsuario(resultado.getString("NOMBRE_USUARIO"));
+		
+			listaUsuarios.add(item);
+		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.err.println("Error (buscarUsuarios):  "+ e.getMessage());
+		listaUsuarios=null;
+	}finally {
+		if (this.conexion.getCon()!=null)
+			this.conexion.desconectar();
+	}
+	return listaUsuarios;
 }
 
 }
